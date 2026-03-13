@@ -1,0 +1,25 @@
+{
+  "name": "@core/clawguard",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --experimentalStripTypes",
+    "dev": "tsup src/index.ts --format esm --dts --watch --experimentalStripTypes",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "vitest": "^1.5.0"
+  },
+  "dependencies": {
+    "tar": "^6.2.0"
+  }
+}
