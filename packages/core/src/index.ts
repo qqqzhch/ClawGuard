@@ -10,5 +10,5 @@ export * from './paths/index.js';
 // Encryption
 export * from './encryption/index.js';
 
-// Backup (will be added in Task 8)
-// export * from './backup/index.js';
+// Backup
+export * from './backup/index.js';
