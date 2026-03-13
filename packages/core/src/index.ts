@@ -1,0 +1,14 @@
+// Types
+export * from './types/index.js';
+
+// Errors
+export * from './errors/index.js';
+
+// Paths
+export * from './paths/index.js';
+
+// Encryption
+export * from './encryption/index.js';
+
+// Backup (will be added in Task 8)
+// export * from './backup/index.js';
