@@ -1,5 +1,9 @@
 import cac from 'cac';
 import { backupCommand } from './commands/backup.js';
+
+import { handleVerifyCommand } from './commands/verify.js';
+
+const cli = cac('clawguard');
 import { diffCommand } from './commands/diff.js';
 import {
   enableScheduleCommand,

@@ -27,3 +27,6 @@ export * from './diff/index.js';
 
 // Schedule
 export * from './schedule/index.js';
+
+// Verify
+export * from './verify/index.js';
