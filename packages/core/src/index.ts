@@ -21,3 +21,6 @@ export * from './export/index.js';
 
 // Import
 export * from './import/index.js';
+
+// Diff
+export * from './diff/index.js';
