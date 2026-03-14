@@ -6,6 +6,7 @@ export interface MetadataStore {
   add(metadata: BackupMetadata): Promise<void>;
   get(id: string): Promise<BackupMetadata | null>;
   list(options?: { level?: BackupLevel }): Promise<BackupMetadata[]>;
+  update(id: string, data: Partial<BackupMetadata>): Promise<void>;
   delete(id: string): Promise<void>;
   clear(): Promise<void>;
 }
@@ -63,6 +64,15 @@ export function createMetadataStore(indexPath: string): MetadataStore {
       }
 
       return result;
+    },
+
+    async update(id: string, data: Partial<BackupMetadata>): Promise<void> {
+      const index = await loadIndex();
+      const existing = index.backups.find(b => b.id === id);
+      if (existing) {
+        Object.assign(existing, data);
+        await saveIndex(index);
+      }
     },
 
     async delete(id: string): Promise<void> {

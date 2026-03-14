@@ -60,8 +60,8 @@
 | `clawguard schedule list` | 列出所有定时任务 | ✅ |
 | `clawguard gateway start [--port]` | 启动 Web Gateway 服务 | ⏳ |
 | `clawguard gateway status` | 查看 Gateway 运行状态 | ⏳ |
-| `clawguard verify <backup-id>` | 验证备份文件完整性 | ⏳ |
-| `clawguard verify --all` | 验证所有备份 | ⏳ |
+| `clawguard verify <backup-id>` | 验证备份文件完整性 | ✅ |
+| `clawguard verify --all` | 验证所有备份 | ✅ |
 
 ---
 
@@ -98,9 +98,9 @@
 
 | 项目 | 描述 | 状态 |
 |------|------|------|
-| **元数据存储** | 备份元数据持久化（JSON 文件） | ⏳ |
-| **日志系统** | 操作日志记录与查看 | ⏳ |
-| **配置管理** | 全局配置文件读写 | ⏳ |
+| **元数据存储** | 备份元数据持久化（JSON 文件） | ✅ |
+| **日志系统** | 操作日志记录与查看 | ✅ |
+| **配置管理** | 全局配置文件读写 | ✅ |
 
 ---
 
