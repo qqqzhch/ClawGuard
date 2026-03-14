@@ -12,3 +12,12 @@ export * from './encryption/index.js';
 
 // Backup
 export * from './backup/index.js';
+
+// Metadata Store
+export * from './metadata-store/index.js';
+
+// Export
+export * from './export/index.js';
+
+// Import
+export * from './import/index.js';
