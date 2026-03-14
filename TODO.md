@@ -55,9 +55,9 @@
 | `clawguard import <file> --decrypt` | 导入并解密 | ✅ |
 | `clawguard diff <id1> <id2>` | 对比两个备份的配置差异 | ✅ |
 | `clawguard diff <id1> --ignore <fields>` | 忽略指定字段的对比 | ✅ |
-| `clawguard schedule enable --cron <expr>` | 启用定时备份任务 | ⏳ |
-| `clawguard schedule retain --days <n>` | 设置备份保留天数 | ⏳ |
-| `clawguard schedule list` | 列出所有定时任务 | ⏳ |
+| `clawguard schedule enable --cron <expr>` | 启用定时备份任务 | ✅ |
+| `clawguard schedule retain --days <n>` | 设置备份保留天数 | ✅ |
+| `clawguard schedule list` | 列出所有定时任务 | ✅ |
 | `clawguard gateway start [--port]` | 启动 Web Gateway 服务 | ⏳ |
 | `clawguard gateway status` | 查看 Gateway 运行状态 | ⏳ |
 | `clawguard verify <backup-id>` | 验证备份文件完整性 | ⏳ |
@@ -74,7 +74,7 @@
 | `packages/core/src/import/` | 导入外部备份文件（可选解密） | ✅ |
  |
 | `packages/core/src/diff/` | 对比两个备份的配置差异 | ✅ |
-| `packages/core/src/schedule/` | 使用 node-cron 实现定时备份 | ⏳ |
+| `packages/core/src/schedule/` | 使用 node-cron 实现定时备份 | ✅ |
 | `packages/core/src/verify/` | 验证备份文件的 checksum | ⏳ |
 
 ---
