@@ -1,6 +1,12 @@
 import cac from 'cac';
 import { backupCommand } from './commands/backup.js';
 import { diffCommand } from './commands/diff.js';
+import {
+  enableScheduleCommand,
+  disableScheduleCommand,
+  listSchedulesCommand,
+  setRetainDaysCommand
+} from './commands/schedule.js';
 
 const cli = cac('clawguard');
 
@@ -31,6 +37,50 @@ cli
     await diffCommand(id1, id2, {
       backupDir: options.backupDir,
       ignore: options.ignore,
+    });
+  });
+
+// Schedule commands
+cli
+  .command('schedule enable <name> <level> <cron> <retain-days>', 'Enable a backup schedule')
+  .option('--backup-dir <dir>', 'Backup directory', { default: '.clawguard/backups' })
+  .action(async (name, level, cron, retainDays, options) => {
+    await enableScheduleCommand({
+      name,
+      level,
+      cron,
+      retainDays: parseInt(retainDays),
+      backupDir: options.backupDir
+    });
+  });
+
+cli
+  .command('schedule disable <id>', 'Disable a backup schedule')
+  .option('--backup-dir <dir>', 'Backup directory', { default: '.clawguard/backups' })
+  .action(async (id, options) => {
+    await disableScheduleCommand({
+      id,
+      backupDir: options.backupDir
+    });
+  });
+
+cli
+  .command('schedule list', 'List all backup schedules')
+  .option('--backup-dir <dir>', 'Backup directory', { default: '.clawguard/backups' })
+  .action(async (options) => {
+    await listSchedulesCommand({
+      backupDir: options.backupDir
+    });
+  });
+
+cli
+  .command('schedule set-retain-days <id> <days>', 'Set retain days for a schedule')
+  .option('--backup-dir <dir>', 'Backup directory', { default: '.clawguard/backups' })
+  .action(async (id, days, options) => {
+    await setRetainDaysCommand({
+      id,
+      retainDays: parseInt(days),
+      backupDir: options.backupDir
     });
   });
 
