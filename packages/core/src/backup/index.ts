@@ -11,7 +11,6 @@ export async function backup(
   const metadataStore = createMetadataStore(getDefaultMetadataIndexPath(backupDir));
 
   let result: BackupInfo;
-
   switch (options.level) {
     case 'config':
       result = await backupLevel1(options);
@@ -26,13 +25,53 @@ export async function backup(
       throw new Error(`Invalid backup level: ${options.level}`);
   }
 
-  // Store metadata in metadata store
+  // Store metadata
   await metadataStore.add(result.metadata);
 
   return result;
 }
 
+export async function listBackups(): Promise<BackupInfo[]> {
+  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath('.clawguard/backups'));
+  return await metadataStore.list();
+}
+
+export async function getBackupMetadata(
+  id: string,
+  backupDir?: string
+): Promise<BackupInfo | null> {
+  const dir = backupDir || '.clawguard/backups';
+  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath(dir));
+  return await metadataStore.get(id);
+}
+
+export async function createBackup(
+  options: BackupOptions,
+): Promise<BackupInfo> {
+  return backup(options);
+}
+
+export async function restoreBackup(options: {
+  backupId: string;
+  dryRun?: boolean;
+  targetPath?: string;
+}): Promise<{
+  filesRestored?: number;
+  duration?: number;
+}> {
+  // TODO: Implement restore function
+  return {
+    filesRestored: 0,
+    duration: 0,
+  };
+}
+
+export async function deleteBackup(id: string): Promise<void> {
+  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath('.clawguard/backups'));
+  await metadataStore.delete(id);
+}
+
 export * from './metadata.js';
-export * from './level-1.js';
-export * from './level-2.js';
-export * from './level-3.js';
+export * from './level-1.';
+export * from './level-2.';
+export * from './level-3.';
