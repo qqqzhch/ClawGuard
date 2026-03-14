@@ -62,8 +62,8 @@ export async function diff(
   const data1 = await fs.readFile(backup1Path);
   const data2 = await fs.readFile(backup2Path);
 
-  let config1: Record<string, unknown>;
-  let config2: Record<string, unknown>;
+  let config1: Record<string, unknown> = {};
+  let config2: Record<string, unknown> = {};
 
   // For config backups, parse JSON
   if (metadata1.level === 'config') {

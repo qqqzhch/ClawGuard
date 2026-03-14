@@ -1,5 +1,6 @@
 import cac from 'cac';
 import { backupCommand } from './commands/backup.js';
+import { diffCommand } from './commands/diff.js';
 
 const cli = cac('clawguard');
 
@@ -19,6 +20,17 @@ cli
       name: options.name,
       output: options.output,
       encrypt: options.encrypt,
+    });
+  });
+
+cli
+  .command('diff <id1> <id2>')
+  .option('--backup-dir <path>', 'Custom backup directory')
+  .option('--ignore <fields>', 'Comma-separated fields to ignore')
+  .action(async (id1, id2, options) => {
+    await diffCommand(id1, id2, {
+      backupDir: options.backupDir,
+      ignore: options.ignore,
     });
   });
 
