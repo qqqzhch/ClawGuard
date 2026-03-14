@@ -1,9 +1,6 @@
 import cac from 'cac';
 import { backupCommand } from './commands/backup.js';
-
 import { handleVerifyCommand } from './commands/verify.js';
-
-const cli = cac('clawguard');
 import { diffCommand } from './commands/diff.js';
 import {
   enableScheduleCommand,
@@ -11,6 +8,7 @@ import {
   listSchedulesCommand,
   setRetainDaysCommand
 } from './commands/schedule.js';
+import { listLogsCommand, logsStatsCommand, logsClearCommand } from './commands/logs.js';
 
 const cli = cac('clawguard');
 
@@ -42,6 +40,18 @@ cli
       backupDir: options.backupDir,
       ignore: options.ignore,
     });
+  });
+
+cli
+  .command('verify <backup-id>')
+  .action(async (backupId) => {
+    await handleVerifyCommand(backupId, {});
+  });
+
+cli
+  .command('verify --all')
+  .action(async () => {
+    await handleVerifyCommand('--all', {});
   });
 
 // Schedule commands
@@ -86,6 +96,38 @@ cli
       retainDays: parseInt(days),
       backupDir: options.backupDir
     });
+  });
+
+// Logs commands
+cli
+  .command('logs', 'List operation logs')
+  .option('--level <level>', 'Filter by log level (debug, info, warn, error)')
+  .option('--command <cmd>', 'Filter by command name')
+  .option('--backup-id <id>', 'Filter by backup ID')
+  .option('--schedule-id <id>', 'Filter by schedule ID')
+  .option('--limit <n>', 'Limit number of results', { default: '100' })
+  .option('--offset <n>', 'Offset for pagination', { default: '0' })
+  .action(async (options) => {
+    await listLogsCommand({
+      level: options.level,
+      command: options.command,
+      backupId: options.backupId,
+      scheduleId: options.scheduleId,
+      limit: parseInt(options.limit),
+      offset: parseInt(options.offset),
+    });
+  });
+
+cli
+  .command('logs stats', 'Show log statistics')
+  .action(async () => {
+    await logsStatsCommand();
+  });
+
+cli
+  .command('logs clear', 'Clear all logs')
+  .action(async () => {
+    await logsClearCommand();
   });
 
 cli.parse();
