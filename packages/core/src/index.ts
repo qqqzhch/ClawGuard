@@ -30,3 +30,6 @@ export * from './schedule/index.js';
 
 // Verify
 export * from './verify/index.js';
+
+// Logger
+export * from './logger/index.js';
