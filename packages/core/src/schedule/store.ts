@@ -9,7 +9,7 @@ const ScheduleSchema = z.object({
   cron: z.string(),
   retainDays: z.number(),
   lastRun: z.number().nullable(),
-  nextRun: z.number(),
+  nextRun: z.number().nullable(),
   enabled: z.boolean(),
 });
 

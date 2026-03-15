@@ -16,11 +16,13 @@
     "test": "vitest --run"
   },
   "devDependencies": {
+    "@types/tar": "^7.0.87",
     "tsup": "^8.0.0",
     "vitest": "^1.5.0"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",
+    "node-cron": "^4.2.1",
     "tar": "^6.2.0"
   }
 }

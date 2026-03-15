@@ -68,6 +68,11 @@ export async function createBackup(
   return backup(options);
 }
 
+export async function deleteBackup(id: string): Promise<void> {
+  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath('.clawguard/backups'));
+  await metadataStore.delete(id);
+}
+
 export async function restoreBackup(options: {
   backupId: string;
   dryRun?: boolean;
@@ -76,19 +81,10 @@ export async function restoreBackup(options: {
   filesRestored?: number;
   duration?: number;
 }> {
-  // TODO: Implement restore function
+  const { restoreBackupImpl } = await import('../restore/index.js');
+  const result = await restoreBackupImpl(options);
   return {
-    filesRestored: 0,
-    duration: 0,
+    filesRestored: result.filesRestored,
+    duration: result.duration,
   };
 }
-
-export async function deleteBackup(id: string): Promise<void> {
-  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath('.clawguard/backups'));
-  await metadataStore.delete(id);
-}
-
-export * from './metadata.js';
-export * from './level-1.js';
-export * from './level-2.js';
-export * from './level-3.js';

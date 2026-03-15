@@ -33,3 +33,6 @@ export * from './verify/index.js';
 
 // Logger
 export * from './logger/index.js';
+
+// Restore
+export * from './restore/index.js';
