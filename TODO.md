@@ -58,8 +58,8 @@
 | `clawguard schedule enable --cron <expr>` | 启用定时备份任务 | ✅ |
 | `clawguard schedule retain --days <n>` | 设置备份保留天数 | ✅ |
 | `clawguard schedule list` | 列出所有定时任务 | ✅ |
-| `clawguard gateway start [--port]` | 启动 Web Gateway 服务 | ⏳ |
-| `clawguard gateway status` | 查看 Gateway 运行状态 | ⏳ |
+| `clawguard gateway start [--port]` | 启动 Web Gateway 服务 | ✅ |
+| `clawguard gateway status` | 查看 Gateway 运行状态 | ✅ |
 | `clawguard verify <backup-id>` | 验证备份文件完整性 | ✅ |
 | `clawguard verify --all` | 验证所有备份 | ✅ |
 
@@ -75,7 +75,7 @@
  |
 | `packages/core/src/diff/` | 对比两个备份的配置差异 | ✅ |
 | `packages/core/src/schedule/` | 使用 node-cron 实现定时备份 | ✅ |
-| `packages/core/src/verify/` | 验证备份文件的 checksum | ⏳ |
+| `packages/core/src/verify/` | 验证备份文件的 checksum | ✅ |
 
 ---
 
@@ -83,14 +83,14 @@
 
 | 功能模块 | 描述 | 技术建议 | 状态 |
 |----------|------|----------|------|
-| **后端服务** | HTTP API 服务 | Express / Fastify / Hono | ⏳ |
-| **前端框架** | Web UI 界面 | React / Vue / Svelte | ⏳ |
-| **配置文件管理** | 可视化展示、在线编辑 | Monaco Editor | ⏳ |
-| **工作区管理** | 查看、上传、下载、编辑 | 文件树组件 | ⏳ |
-| **备份管理** | 创建、恢复、删除、查看详情 | 列表/详情页 | ⏳ |
-| **系统文件查看** | SOUL.md、MEMORY.md 等 | Markdown 渲染 | ⏳ |
-| **定时任务管理** | 启停、查看、编辑 cron | Cron 表达式编辑器 | ⏳ |
-| **加密设置** | 设置/重置加密密钥 | 表单验证 | ⏳ |
+| **后端服务** | HTTP API 服务 | Express / Fastify / Hono | ✅ |
+| **前端框架** | Web UI 界面 | React / Vue / Svelte | ✅ |
+| **配置文件管理** | 可视化展示、在线编辑 | Monaco Editor | ✅ |
+| **工作区管理** | 查看、上传、下载、编辑 | 文件树组件 | ✅ |
+| **备份管理** | 创建、恢复、删除、查看详情 | 列表/详情页 | ✅ |
+| **系统文件查看** | SOUL.md、MEMORY.md 等 | Markdown 渲染 | ✅ |
+| **定时任务管理** | 启停、查看、编辑 cron | Cron 表达式编辑器 | ✅ |
+| **加密设置** | 设置/重置加密密钥 | 表单验证 | ✅ |
 
 ---
 
