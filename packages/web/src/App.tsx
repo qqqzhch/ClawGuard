@@ -4,6 +4,7 @@ import BackupManagement from '@/components/BackupManagement';
 import ConfigManagement from '@/components/ConfigManagement';
 import ScheduleManagement from '@/components/ScheduleManagement';
 import LogViewer from '@/components/LogViewer';
+import Settings from '@/components/Settings';
 
 export default function App() {
   return (
@@ -59,9 +60,7 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="settings" className="mt-6">
-            <div className="text-center py-8 text-muted-foreground">
-              加载中...
-            </div>
+            <Settings />
           </TabsContent>
         </Tabs>
       </main>
