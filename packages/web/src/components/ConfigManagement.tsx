@@ -11,8 +11,8 @@ export default function ConfigManagement() {
   const loadConfigs = async () => {
     try {
       setLoading(true);
-      const configs = await api.getConfig();
-      setConfigs(configs || []);
+      const response = await api.getConfig();
+      setConfigs(response || []);
     } catch (error) {
       console.error('Failed to load configs:', error);
     } finally {
