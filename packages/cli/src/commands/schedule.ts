@@ -27,8 +27,8 @@ export async function enableScheduleCommand(options: EnableScheduleOptions): Pro
     });
     spinner.succeed(`Schedule enabled successfully (ID: ${schedule.id})`);
   } catch (error) {
-    spinner.fail(`Failed to enable schedule: ${error.message}`);
-    process.exit(1);
+    spinner.fail(`Failed to enable schedule: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
   }
 }
 
@@ -45,8 +45,8 @@ export async function disableScheduleCommand(options: DisableScheduleOptions): P
     });
     spinner.succeed(`Schedule disabled successfully (ID: ${schedule.id})`);
   } catch (error) {
-    spinner.fail(`Failed to disable schedule: ${error.message}`);
-    process.exit(1);
+    spinner.fail(`Failed to disable schedule: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
   }
 }
 
@@ -80,8 +80,8 @@ ${index + 1}. ID: ${schedule.id}
         `.trim());
     });
   } catch (error) {
-    spinner.fail(`Failed to list schedules: ${error.message}`);
-    process.exit(1);
+    spinner.fail(`Failed to list schedules: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
   }
 }
 
@@ -99,7 +99,7 @@ export async function setRetainDaysCommand(options: SetRetainDaysOptions): Promi
     });
     spinner.succeed(`Retain days updated to ${schedule.retainDays} for schedule: ${schedule.id}`);
   } catch (error) {
-    spinner.fail(`Failed to set retain days: ${error.message}`);
-    process.exit(1);
+    spinner.fail(`Failed to set retain days: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
   }
 }

@@ -2,8 +2,10 @@ export * from './logger.js';
 export * from './store.js';
 export * from './query.js';
 
-import type { LogLevel, LogEntry, LogContext } from '../types/logger.js';
+import type { LogEntry } from '../types/logger.js';
+import type { LogContext } from '../types/logger.js';
 import { logger } from './logger.js';
+import { LogLevel } from '../types/logger.js';
 
 /**
  * 记录日志到存储
@@ -41,10 +43,10 @@ export async function logToStore(options: {
 export async function logWithContext(
   message: string,
   context: LogContext,
-  level: LogLevel = 'info'
+  level?: LogLevel
 ): Promise<void> {
   await logToStore({
-    level,
+    level: level || LogLevel.INFO,
     message,
     command: context.command,
     backupId: context.backupId,

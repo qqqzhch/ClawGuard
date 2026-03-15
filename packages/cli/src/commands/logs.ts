@@ -51,7 +51,7 @@ export async function listLogsCommand(options: LogsListOptions = {}): Promise<vo
     }
   } catch (error) {
     logger.error('Failed to list logs', error as Error);
-    process.exit(1);
+    throw error;
   }
 }
 
@@ -73,7 +73,7 @@ export async function logsStatsCommand(): Promise<void> {
     console.log(`  Last Log: ${metadata.lastLogTime || 'N/A'}`);
   } catch (error) {
     logger.error('Failed to get log stats', error as Error);
-    process.exit(1);
+    throw error;
   }
 }
 
@@ -84,6 +84,6 @@ export async function logsClearCommand(): Promise<void> {
     logger.success('Logs cleared successfully');
   } catch (error) {
     logger.error('Failed to clear logs', error as Error);
-    process.exit(1);
+    throw error;
   }
 }

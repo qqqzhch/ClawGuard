@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import fsExtra from 'fs-extra';
 import path from 'path';
+import * as tar from 'tar';
 import { createMetadataStore, getDefaultMetadataIndexPath } from '../metadata-store/index.js';
 import { getOpenClawRoot, getWorkspacePath } from '../paths/index.js';
 
@@ -107,7 +108,7 @@ async function restoreConfigBackup(backupId: string, backupDir: string, targetPa
         await createBackupFile(filePath);
       }
       await fsExtra.ensureDir(path.dirname(filePath));
-      await fs.writeFile(filePath, content, 'utf-8');
+      await fs.writeFile(filePath, String(content), 'utf-8');
       restoredCount++;
       console.log(`  Restored: ${filePath}`);
     } catch (error) {
@@ -128,13 +129,12 @@ async function restoreTarBackup(backupId: string, backupDir: string, targetPath:
   await fsExtra.ensureDir(targetPath);
 
   try {
-    const { extract, list } = await import('tar') as any;
-    await extract({
+    await tar.extract({
       gzip: true,
       cwd: targetPath,
-    }, [backupData]);
+    }, [backupPath]);
 
-    const entries = await list({ gzip: true }, [backupData]);
+    const entries = await tar.list({ gzip: true }, [backupPath]);
     return entries.length;
   } catch (error) {
     errors.push({
@@ -150,10 +150,10 @@ async function createBackupFile(filePath: string): Promise<void> {
   try {
     if (await fsExtra.pathExists(filePath)) {
       await fsExtra.copy(filePath, backupPath);
-);
       console.log(`  Backed up existing file to: ${backupPath}`);
     }
   } catch {
+    // Ignore errors when creating backup file
   }
 }
 
@@ -194,8 +194,7 @@ export async function previewRestore(backupId: string, backupDir?: string): Prom
   } else {
     const backupPath = path.join(dir, `${backupId}.tar.gz`);
     const backupData = await fs.readFile(backupPath);
-    const { list } = await import('tar') as any;
-    const entries = await list({ gzip: true }, [backupData]);
+    const entries = await tar.list({ gzip: true }, [backupPath]);
     return {
       metadata: validation.metadata,
       files: entries.map((e: any) => e.path),

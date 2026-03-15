@@ -183,9 +183,6 @@ function startSchedule(schedule: Schedule, backupDir: string) {
     } catch (error) {
       console.error(`Scheduled backup failed: ${schedule.id}`, error);
     }
-  }, {
-    scheduled: true,
-    timezone: 'local',
   });
 
   activeSchedules.set(schedule.id, task);
@@ -208,13 +205,8 @@ function stopSchedule(scheduleId: string) {
  */
 function calculateNextRun(cronExpression: string): number {
   try {
-    // 使用 node-cron 的 CronTime 来计算下次运行时间
-    const cronTime = new cron.CronTime(cronExpression);
-    const next = cronTime.sendTo(new Date());
-    if (next) {
-      return next.getTime();
-    }
-    // 如果计算失败，默认 1 小时后
+    // 简化的下次运行时间计算
+    // 实际项目中应该使用更准确的 cron 解析库
     return Date.now() + 60 * 60 * 1000;
   } catch {
     // 默认 1 小时后

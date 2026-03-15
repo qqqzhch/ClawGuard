@@ -73,7 +73,7 @@ export async function deleteBackup(id: string): Promise<void> {
   await metadataStore.delete(id);
 }
 
-export async function restoreBackup(options: {
+export async function restoreBackupSimple(options: {
   backupId: string;
   dryRun?: boolean;
   targetPath?: string;

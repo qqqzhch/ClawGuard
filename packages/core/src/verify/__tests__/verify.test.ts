@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { verify, verifyAll, type VerifyResult } from '../verify.js';
 import { backup } from '../../backup/index.js';
-import { createMetadataStore, getDefaultMetadataIndexPath } as getMetadataIndexPath } from '../../metadata-store/index.js';
+import { createMetadataStore, getDefaultMetadataIndexPath as getMetadataIndexPath } from '../../metadata-store/index.js';
 import fs from 'node:fs/promises';
 import fsExtra from 'fs-extra';
 import path from 'path';

@@ -32,6 +32,6 @@ export async function diffCommand(
   } catch (error) {
     spinner.fail('Diff failed!');
     logger.error(error instanceof Error ? error.message : String(error));
-    process.exit(1);
+    throw error;
   }
 }

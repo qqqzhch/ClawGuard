@@ -42,6 +42,6 @@ export async function handleVerifyCommand(
     }
   } else {
     console.error('Please specify a backup ID or use --all flag');
-    process.exit(1);
+    throw new Error('Please specify a backup ID or use --all flag');
   }
 }

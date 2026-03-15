@@ -1,7 +1,7 @@
 import pino from 'pino';
 import path from 'node:path';
 import { ensureDirSync } from 'fs-extra';
-import type { LogLevel } from '../types/logger.js';
+import type { LogLevel, LogContext } from '../types/logger.js';
 import { getOpenClawRoot } from '../paths/index.js';
 
 const LOG_DIR = path.join('.clawguard', 'logs');
@@ -37,15 +37,6 @@ export const logger = pino({
     ],
   },
 });
-
-export interface LogContext {
-  command?: string;
-  operation?: string;
-  backupId?: string;
-  scheduleId?: string;
-  duration?: number;
-  metadata?: Record<string, unknown>;
-}
 
 export function logInfo(message: string, context?: LogContext): void {
   logger.info({ ...context }, message);

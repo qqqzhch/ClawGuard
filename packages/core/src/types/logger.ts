@@ -5,6 +5,15 @@ export enum LogLevel {
   ERROR = 'error',
 }
 
+export interface LogContext {
+  command?: string;
+  backupId?: string;
+  scheduleId?: string;
+  duration?: number;
+  metadata?: Record<string, unknown>;
+  success?: boolean;
+}
+
 export interface LogEntry {
   timestamp: string;
   level: LogLevel;

@@ -4,10 +4,10 @@ import configRoute from '../../routes/config.js';
 
 vi.mock('@core/clawguard', () => ({
   getOpenClawRoot: vi.fn(() => '/mock/root'),
-  getConfigFiles: vi.fn(() => ({
-    SOUL: '.clawguard/config/SOUL.md',
-    MEMORY: '.clawguard/config/MEMORY.md',
-  })),
+  getConfigFiles: vi.fn(() => [
+    'config.json',
+    'settings.json',
+  ]),
 }));
 
 describe('Config API', () => {
@@ -27,16 +27,16 @@ describe('Config API', () => {
   });
 
   it('should get specific config', async () => {
-    const response = await app.request('/api/config/SOUL');
-    // Will fail because file doesn't exist, but API structure is correct
+    const response = await app.request('/api/config/config');
+    // File doesn't exist but API structure is correct
     expect([200, 404, 500]).toContain(response.status);
   });
 
   it('should update config', async () => {
-    const response = await app.request('/api/config/SOUL', {
+    const response = await app.request('/api/config/config', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ value: 'Updated Value' }),
+      body: JSON.stringify({ value: { updated: true } }),
     });
 
     expect(response.status).toBe(200);

@@ -19,6 +19,6 @@ export async function backupCommand(
   } catch (error) {
     spinner.fail('Backup failed!');
     logger.error(error instanceof Error ? error.message : String(error));
-    process.exit(1);
+    throw error;
   }
 }

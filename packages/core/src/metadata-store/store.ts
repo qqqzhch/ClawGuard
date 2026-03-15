@@ -22,17 +22,17 @@ export function createMetadataStore(indexPath: string): MetadataStore {
     try {
       const content = await fs.readFile(indexPath, 'utf-8');
       const result = JSON.parse(content);
-      // Validate the result structure
+      // Validate result structure
       if (!result || !Array.isArray(result.backups)) {
         throw new Error('Invalid metadata index format');
       }
       return result;
     } catch (error) {
       const err = error as NodeJS.ErrnoException;
-      if (err.code === 'ENOENT') {
+      if (err && err.code === 'ENOENT') {
         return { backups: [] };
       }
-      // If the file exists but is corrupted, log warning and return empty
+      // If file exists but is corrupted, log warning and return empty
       console.warn(`Warning: Metadata index file corrupted at ${indexPath}, using empty index`);
       return { backups: [] };
     }
@@ -94,7 +94,7 @@ export function createMetadataStore(indexPath: string): MetadataStore {
         await saveIndex({ backups: [] });
       } catch (error) {
         // If saveIndex fails (e.g., due to corrupted existing file),
-        // try to delete the file and recreate it
+        // try to delete file and recreate it
         try {
           await fs.unlink(indexPath);
         } catch {
