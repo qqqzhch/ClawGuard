@@ -53,6 +53,7 @@ export async function backupLevel2(
     data.length,
     files.length,
     false,
+    checksum,
   );
 
   return {

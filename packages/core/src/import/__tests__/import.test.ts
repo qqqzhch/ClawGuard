@@ -50,52 +50,58 @@ describe('Import Module', () => {
   });
 
   it('should import and decrypt encrypted backup', async () => {
-    // Mock encryption key - must be 32 bytes for AES-256
-    const keyPath = path.join(
-      process.env.HOME || process.env.USERPROFILE || os.homedir(),
-      '.clawguard',
-      'encryption.key'
-    );
-    await fsExtra.ensureDir(path.dirname(keyPath));
+    // Use test directory for key file to avoid conflicts
+    const keyPath = path.join(testDir, 'encryption.key');
     // Generate a proper 32-byte key
     const key = crypto.randomBytes(32);
     await fs.writeFile(keyPath, key.toString('hex'), 'utf-8');
 
     try {
-      // Create a test backup
-      const backupResult = await backup({
-        level: 'config',
-        output: importDir,
-      });
+      // Set environment variable for test
+      const originalKeyPath = process.env.CLAUGUARD_ENCRYPTION_KEY_PATH;
+      process.env.CLAUGUARD_ENCRYPTION_KEY_PATH = keyPath;
 
-      // Read and encrypt backup data
-      const backupData = await fs.readFile(backupResult.filePath);
-
-      // Encrypt backup data
-      const encryptResult = await encrypt(backupData, key);
-      const encryptedData = Buffer.concat([
-        encryptResult.data,
-        encryptResult.iv,
-        encryptResult.authTag,
-      ]);
-
-      // Write encrypted backup
-      const encryptedPath = path.join(testDir, 'encrypted-backup.json.enc');
-      await fs.writeFile(encryptedPath, encryptedData);
-
-      // Import and decrypt
-      const result = await importBackup(encryptedPath, {
-        backupDir: importDir,
-        decrypt: true,
-      });
-
-      expect(result.decrypted).toBe(true);
-      expect(result.metadata).toBeDefined();
-    } finally {
-      // Cleanup
       try {
-        await fsExtra.remove(path.dirname(keyPath));
-      } catch {}
+        // Create a test backup
+        const backupResult = await backup({
+          level: 'config',
+          output: importDir,
+        });
+
+        // Read and encrypt backup data
+        const backupData = await fs.readFile(backupResult.filePath);
+
+        // Encrypt backup data
+        const encryptResult = await encrypt(backupData, key);
+        const encryptedData = Buffer.concat([
+          encryptResult.data,
+          encryptResult.iv,
+          encryptResult.authTag,
+        ]);
+
+        // Write encrypted backup
+        const encryptedPath = path.join(testDir, 'encrypted-backup.json.enc');
+        await fs.writeFile(encryptedPath, encryptedData);
+
+        // Import and decrypt
+        const result = await importBackup(encryptedPath, {
+          backupDir: importDir,
+          decrypt: true,
+        });
+
+        expect(result.decrypted).toBe(true);
+        expect(result.metadata).toBeDefined();
+      } finally {
+        // Restore original environment variable
+        if (originalKeyPath) {
+          process.env.CLAUGUARD_ENCRYPTION_KEY_PATH = originalKeyPath;
+        } else {
+          delete process.env.CLAUGUARD_ENCRYPTION_KEY_PATH;
+        }
+      }
+    } catch (error) {
+      console.error('Test error:', error);
+      throw error;
     }
   });
 
@@ -111,15 +117,13 @@ describe('Import Module', () => {
   });
 
   it('should throw error when decrypting without key', async () => {
-    // Create a test backup
-    const backupResult = await backup({
-      level: 'config',
-      output: importDir,
-    });
-
     // Try to import with decrypt but no key
+    // Use a non-existent file to trigger the key check
+    const encryptedPath = path.join(testDir, 'nonexistent.enc');
+    await fs.writeFile(encryptedPath, Buffer.from('dummy'), 'binary');
+
     await expect(
-      importBackup(backupResult.filePath, {
+      importBackup(encryptedPath, {
         backupDir: importDir,
         decrypt: true,
       })

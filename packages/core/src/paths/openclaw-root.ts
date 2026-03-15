@@ -1,5 +1,7 @@
 import path from 'path';
 import os from 'os';
+import fs from 'fs/promises';
+import fsExtra from 'fs-extra';
 
 export function getOpenClawRoot(): string {
   const homeDir = os.homedir();
@@ -8,7 +10,10 @@ export function getOpenClawRoot(): string {
 
 export async function ensureOpenClawDir(): Promise<string> {
   const root = getOpenClawRoot();
-  const fs = await import('fs-extra');
-  await fs.ensureDir(root);
+  await fsExtra.ensureDir(root);
   return root;
+}
+
+export function getHomeDir(): string {
+  return os.homedir();
 }

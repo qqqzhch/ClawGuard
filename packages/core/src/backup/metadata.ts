@@ -15,11 +15,18 @@ export function createBackupMetadata(
   size: number,
   fileCount: number,
   encrypted: boolean,
+  dataChecksum?: string,
 ): BackupMetadata {
-  const data = Buffer.from(
-    JSON.stringify({ id, name, level, size, fileCount, encrypted }),
-  );
-  const checksum = crypto.createHash('sha256').update(data).digest('hex');
+  // 如果提供了数据校验和，使用它；否则使用 metadata 对象的校验和
+  let checksum: string;
+  if (dataChecksum) {
+    checksum = dataChecksum;
+  } else {
+    const data = Buffer.from(
+      JSON.stringify({ id, name, level, size, fileCount, encrypted }),
+    );
+    checksum = crypto.createHash('sha256').update(data).digest('hex');
+  }
 
   return {
     id,

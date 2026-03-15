@@ -52,17 +52,6 @@ export async function importBackup(
     };
 
     const decryptedResult = await decrypt(encryptResult, key);
-    const exportResultData = Buffer.concat([
-      decryptedResult,
-      encryptResult.iv,
-      encryptResult.authTag,
-    ]);
-
-    if (exportResultData.length !== data.length ||
-      exportResultData.compare(data) !== 0) {
-      throw new Error('Invalid encrypted backup file format');
-    }
-
     backupData = Buffer.from(decryptedResult);
     decrypted = true;
   }
@@ -123,7 +112,8 @@ export async function importBackup(
 }
 
 async function getEncryptionKey(): Promise<Buffer | null> {
-  const keyPath = path.join(
+  // Support custom key path for testing
+  const keyPath = process.env.CLAUGUARD_ENCRYPTION_KEY_PATH || path.join(
     process.env.HOME || process.env.USERPROFILE || require('os').homedir(),
     '.clawguard',
     'encryption.key',

@@ -21,12 +21,20 @@ export function createMetadataStore(indexPath: string): MetadataStore {
   async function loadIndex(): Promise<MetadataIndex> {
     try {
       const content = await fs.readFile(indexPath, 'utf-8');
-      return JSON.parse(content);
+      const result = JSON.parse(content);
+      // Validate the result structure
+      if (!result || !Array.isArray(result.backups)) {
+        throw new Error('Invalid metadata index format');
+      }
+      return result;
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      const err = error as NodeJS.ErrnoException;
+      if (err.code === 'ENOENT') {
         return { backups: [] };
       }
-      throw error;
+      // If the file exists but is corrupted, log warning and return empty
+      console.warn(`Warning: Metadata index file corrupted at ${indexPath}, using empty index`);
+      return { backups: [] };
     }
   }
 
@@ -82,7 +90,18 @@ export function createMetadataStore(indexPath: string): MetadataStore {
     },
 
     async clear(): Promise<void> {
-      await saveIndex({ backups: [] });
+      try {
+        await saveIndex({ backups: [] });
+      } catch (error) {
+        // If saveIndex fails (e.g., due to corrupted existing file),
+        // try to delete the file and recreate it
+        try {
+          await fs.unlink(indexPath);
+        } catch {
+          // Ignore delete errors
+        }
+        await saveIndex({ backups: [] });
+      }
     },
   };
 }

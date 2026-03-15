@@ -50,6 +50,7 @@ export async function backupLevel3(
     data.length,
     0,
     false,
+    checksum,
   );
 
   return {
