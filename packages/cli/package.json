@@ -3,24 +3,25 @@
   "version": "1.0.0",
   "type": "module",
   "bin": {
-    "clawguard": "./dist/index.js"
+    "clawguard": "./bin/clawguard.cmd"
   },
   "files": [
+    "bin",
     "dist",
     "public"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts",
-    "dev": "tsup src/index.ts --format esm --dts --watch",
-    "start": "node dist/index.js"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/index.mjs"
   },
   "dependencies": {
-    "@core/clawguard": "workspace:*",
-    "@clawguard/gateway": "workspace:*",
     "cac": "^6.7.0",
     "ora": "^6.3.0",
     "chalk": "^4.1.2",
-    "cli-table3": "^0.6.3"
+    "cli-table3": "^0.6.3",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

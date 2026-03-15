@@ -9,6 +9,9 @@ export default defineConfig({
   target: 'es2022',
   platform: 'node',
   shims: true,
-  sourcemap: true,
+  outExtension: () => ({ js: '.mjs' }),
   external: [...builtinModules, ...builtinModules.map(m => `node:${m}`), 'pino', 'pino-pretty'],
+  banner: {
+    js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
+  },
 });
