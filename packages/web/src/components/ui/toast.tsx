@@ -5,8 +5,19 @@ import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const ToastProvider = ToastPrimitive.Provider;
-const ToastViewport = React.forwardRef<HTMLDivElement, React.ComponentProps<typeof ToastPrimitive.Viewport>>(({ className, ...props }, ref) => (
-  <ToastPrimitive.Viewport ref={ref} className={cn('fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col sm:max-w-[420px]', className)} {...props} />
+
+const ToastViewport = React.forwardRef<
+  HTMLOListElement,
+  React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport>
+>(({ className, ...props }, ref) => (
+  <ToastPrimitive.Viewport
+    ref={ref}
+    className={cn(
+      'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col sm:max-w-[420px]',
+      className
+    )}
+    {...props}
+  />
 ));
 ToastViewport.displayName = ToastPrimitive.Viewport.displayName;
 
@@ -25,29 +36,52 @@ const toastVariants = cva(
   }
 );
 
-const Toast = React.forwardRef<HTMLDivElement, React.ComponentProps<typeof ToastPrimitive.Root> & VariantProps<typeof toastVariants>>(({ className, variant, ...props }, ref) => {
-  return (
-    <ToastPrimitive.Root ref={ref} className={cn(toastVariants({ variant }), className)} {...props}>
-      <div className="grid gap-1">
-        {props.title && <div className="text-sm font-semibold">{props.title}</div>}
-        {props.description && <div className="text-sm opacity-90">{props.description}</div>}
-      </div>
-      <ToastPrimitive.Close className="absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-ring group-hover:opacity-100 group-hover:delay-100 group-hover:duration-200">
-        <X className="h-4 w-4" />
-      </ToastPrimitive.Close>
-    </ToastPrimitive.Root>
-  );
-});
+type ToastProps = React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root> &
+  VariantProps<typeof toastVariants> & {
+    title?: string;
+    description?: string;
+  };
+
+const Toast = React.forwardRef<HTMLLIElement, ToastProps>(
+  ({ className, variant, title, description, ...props }, ref) => {
+    return (
+      <ToastPrimitive.Root
+        ref={ref}
+        className={cn(toastVariants({ variant }), className)}
+        {...props}
+      >
+        <div className="grid gap-1">
+          {title && <div className="text-sm font-semibold">{title}</div>}
+          {description && <div className="text-sm opacity-90">{description}</div>}
+        </div>
+        <ToastPrimitive.Close className="absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-ring group-hover:opacity-100 group-hover:delay-100 group-hover:duration-200">
+          <X className="h-4 w-4" />
+        </ToastPrimitive.Close>
+      </ToastPrimitive.Root>
+    );
+  }
+);
 Toast.displayName = ToastPrimitive.Root.displayName;
 
-const ToastAction = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof<typeof ToastPrimitive.Action>>(({ className, ...props }, ref) => (
-  <ToastPrimitive.Action ref={ref} className={cn('inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary:50 focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50', className)} {...props} />
+const ToastAction = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentPropsWithoutRef<typeof ToastPrimitive.Action>
+>(({ className, ...props }, ref) => (
+  <ToastPrimitive.Action
+    ref={ref}
+    className={cn(
+      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary:50 focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50',
+      className
+    )}
+    {...props}
+  />
 ));
 ToastAction.displayName = ToastPrimitive.Action.displayName;
 
-type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;
-
-const Toaster = React.forwardRef<HTMLDivElement, ToastProps>(({ ...props }, ref) => (
+const Toaster = React.forwardRef<
+  HTMLOListElement,
+  React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport>
+>(({ ...props }, ref) => (
   <ToastProvider>
     <ToastViewport ref={ref} {...props} />
   </ToastProvider>

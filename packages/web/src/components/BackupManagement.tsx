@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { api, type BackupItem } from '@/lib/api';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { formatFileSize, formatDate } from '@/lib/utils';
-import { Trash2, Download, RefreshCw, Play, Shield } from 'lucide-react';
+import { Trash2, RefreshCw, Play, Shield, Database } from 'lucide-react';
 
 export default function BackupManagement() {
   const [backups, setBackups] = useState<BackupItem[]>([]);
@@ -97,7 +97,7 @@ export default function BackupManagement() {
                     </CardDescription>
                   </div>
                   {backup.encrypted && (
-                    <Shield className="h-5 w-5 text-primary" title="已加密" />
+                    <Shield className="h-5 w-5 text-primary" />
                   )}
                 </div>
               </CardHeader>

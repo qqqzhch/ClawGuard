@@ -60,6 +60,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@clawguard/gateway':
+        specifier: workspace:*
+        version: link:../gateway
       '@core/clawguard':
         specifier: workspace:*
         version: link:../core

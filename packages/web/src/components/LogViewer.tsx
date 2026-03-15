@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { api, type LogItem } from '@/lib/api';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
-import { RefreshCw, AlertCircle, CheckCircle, RefreshCwDot } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { RefreshCw, AlertCircle, CheckCircle, RefreshCcwDot } from 'lucide-react';
+
+const levels = ['all', 'error', 'warn', 'info', 'debug'] as const;
+type FilterLevel = typeof levels[number];
 
 export default function LogViewer() {
   const [logs, setLogs] = useState<LogItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'error' | 'warn' | 'info' | 'debug'>('all');
+  const [filter, setFilter] = useState<FilterLevel>('all');
 
   const loadLogs = async () => {
     try {
@@ -35,7 +38,7 @@ export default function LogViewer() {
       case 'info':
         return <CheckCircle className="h-4 w-4 text-blue-500" />;
       default:
-        return <RefreshCwDot className="h-4 w-4 text-gray-500" />;
+        return <RefreshCcwDot className="h-4 w-4 text-gray-500" />;
     }
   };
 
@@ -65,12 +68,12 @@ export default function LogViewer() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">操作日志</h2>
         <div className="flex gap-2">
-          {(['all', 'error', 'warn', 'info', 'debug'] as const[]).map((level) => (
+          {levels.map((level) => (
             <Button
               key={level}
               size="sm"
               variant={filter === level ? 'default' : 'outline'}
-              onClick={() => setFilter(level as typeof filter)}
+              onClick={() => setFilter(level)}
             >
               {level === 'all' && '全部'}
               {level === 'error' && '错误'}
@@ -88,7 +91,7 @@ export default function LogViewer() {
       {logs.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <RefreshCwDot className="mx-auto h-12 w-12 text-muted-foreground" />
+            <RefreshCcwDot className="mx-auto h-12 w-12 text-muted-foreground" />
             <p className="mt-4 text-muted-foreground">暂无日志</p>
           </CardContent>
         </Card>

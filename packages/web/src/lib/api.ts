@@ -103,7 +103,7 @@ export const api = {
   async updateConfig(key: string, value: unknown): Promise<void> {
     const response = await fetch(`${API_BASE}/config/${key}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json'` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ value }),
     });
     return handleResponse(response);
@@ -118,7 +118,7 @@ export const api = {
   async createSchedule(schedule: Omit<ScheduleItem, 'id' | 'lastRun' | 'nextRun'>): Promise<ScheduleItem> {
     const response = await fetch(`${API_BASE}/schedules`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json'` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(schedule),
     });
     return handleResponse(response);
@@ -127,7 +127,7 @@ export const api = {
   async updateSchedule(id: string, schedule: Partial<ScheduleItem>): Promise<ScheduleItem> {
     const response = await fetch(`${API_BASE}/schedules/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json'` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(schedule),
     });
     return handleResponse(response);
@@ -158,7 +158,7 @@ export const api = {
   async restoreBackup(id: string, options?: { dryRun?: boolean }): Promise<{ filesRestored: number; duration: number }> {
     const response = await fetch(`${API_BASE}/restores/${id}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json'` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(options || {}),
     });
     return handleResponse(response);

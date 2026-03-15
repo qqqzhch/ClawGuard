@@ -1,14 +1,31 @@
 # Dependencies
 node_modules/
+**/node_modules/**
 .pnpm-store/
+ packages/gateway/node_modules/
 
 # Build outputs
 dist/
-*.log
+packages/cli/public/
+
+# Runtime generated
+.clawguard/
+*.tar
+*.tar.gz
+*.backup
+
+# Environment
+.env
+.env.*
+*.env
+
+# Config (local overrides)
+config.local.json
 
 # IDE
 .vscode/
 .idea/
+.trae/
 
 # OS
 .DS_Store

@@ -1,5 +1,5 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { LayoutDashboard, Database, Clock, FileText, Settings, Shield } from 'lucide-react';
+import { LayoutDashboard, Database, Clock, FileText, Settings as SettingsIcon, Shield } from 'lucide-react';
 import BackupManagement from '@/components/BackupManagement';
 import ConfigManagement from '@/components/ConfigManagement';
 import ScheduleManagement from '@/components/ScheduleManagement';
@@ -38,7 +38,7 @@ export default function App() {
               日志
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
+              <SettingsIcon className="h-4 w-4" />
               设置
             </TabsTrigger>
           </TabsList>

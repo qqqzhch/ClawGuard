@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/ui/button';
+import { Button } from '@/components/ui/button';
 import { Shield, Key, Database, Globe, Info } from 'lucide-react';
 
 export default function Settings() {

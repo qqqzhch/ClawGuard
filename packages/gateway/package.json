@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup src --format esm",
+    "build": "tsup src --format esm --no-dts",
     "dev": "tsup src --format esm --watch",
     "start": "node dist/index.js",
     "test": "vitest --run"

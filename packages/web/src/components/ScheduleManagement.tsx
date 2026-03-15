@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { api, type ScheduleItem } from '@/lib/api';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/ui/dialog';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RefreshCw, Plus, Clock, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
 
 export default function ScheduleManagement() {

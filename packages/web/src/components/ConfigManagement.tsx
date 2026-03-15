@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api, type ConfigEntry } from '@/lib/api';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw } from 'lucide-react';
 
 export default function ConfigManagement() {
@@ -11,8 +11,8 @@ export default function ConfigManagement() {
   const loadConfigs = async () => {
     try {
       setLoading(true);
-      const response = await api.getConfig();
-      setConfigs(response.data || []);
+      const configs = await api.getConfig();
+      setConfigs(configs || []);
     } catch (error) {
       console.error('Failed to load configs:', error);
     } finally {
