@@ -1,6 +1,7 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { LayoutDashboard, Database, Clock, FileText, Settings, Shield } from 'lucide-react';
 import BackupManagement from '@/components/BackupManagement';
+import ConfigManagement from '@/components/ConfigManagement';
 
 export default function App() {
   return (
@@ -44,9 +45,7 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="config" className="mt-6">
-            <div className="text-center py-8 text-muted-foreground">
-              加载中...
-            </div>
+            <ConfigManagement />
           </TabsContent>
 
           <TabsContent value="schedules" className="mt-6">
