@@ -29,7 +29,7 @@ describe('Logs API', () => {
     const response = await app.request('/api/logs');
     expect(response.status).toBe(200);
 
-    const json = await response.json();
+    const json = await response.json() as { success: boolean };
     expect(json.success).toBe(true);
   });
 
@@ -37,7 +37,7 @@ describe('Logs API', () => {
     const response = await app.request('/api/logs/stats');
     expect(response.status).toBe(200);
 
-    const json = await response.json();
+    const json = await response.json() as { success: boolean };
     expect(json.success).toBe(true);
   });
 
@@ -48,7 +48,7 @@ describe('Logs API', () => {
 
     expect(response.status).toBe(200);
 
-    const json = await response.json();
+    const json = await response.json() as { success: boolean };
     expect(json.success).toBe(true);
   });
 });

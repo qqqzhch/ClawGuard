@@ -6,6 +6,8 @@ export interface EncryptResult {
   authTag: Buffer;
 }
 
+export type NonSharedBuffer = Buffer;
+
 export async function encrypt(
   data: Buffer,
   key: Buffer,

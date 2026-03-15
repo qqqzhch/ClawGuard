@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 import configRoute from '../../routes/config.js';
 
@@ -22,19 +22,13 @@ describe('Config API', () => {
     const response = await app.request('/api/config');
     expect(response.status).toBe(200);
 
-    const json = await response.json();
+    const json: any = await response.json();
     expect(json.success).toBe(true);
   });
 
   it('should get specific config', async () => {
     const response = await app.request('/api/config/SOUL');
     // Will fail because file doesn't exist, but API structure is correct
-    expect([200, 404, 500]).toContain(response.status);
-
-    const response = await app.request('/api/config/SOUL');
-    expect([200, 404, 500]).toContain(response.status);
-
-    const response = await app.request('/api/config/MEMORY');
     expect([200, 404, 500]).toContain(response.status);
   });
 
@@ -47,7 +41,7 @@ describe('Config API', () => {
 
     expect(response.status).toBe(200);
 
-    const json = await response.json();
+    const json: any = await response.json();
     expect(json.success).toBe(true);
   });
 });

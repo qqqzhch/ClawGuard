@@ -6,7 +6,6 @@
     "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "experimentalStripTypes": true
+    "skipLibCheck": true
   }
 }

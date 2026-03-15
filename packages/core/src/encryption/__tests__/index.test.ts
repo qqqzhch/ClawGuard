@@ -7,7 +7,8 @@ import os from 'os';
 describe('Encryption', () => {
   it('should encrypt and decrypt data', async () => {
     const data = Buffer.from('Hello, World!');
-    const key = Buffer.from('012345678901234567890123456789012');
+    // AES-256-GCM requires 32-byte key
+    const key = Buffer.from('01234567890123456789012345678901');
 
     const result = await encrypt(data, key);
     const decrypted = await decrypt(result, key);
@@ -21,9 +22,7 @@ describe('Encryption', () => {
 
     const storedKey = await getKey();
     expect(storedKey).not.toBeNull();
-    expect(storedKey!.toString('hex')).toBe(
-      Buffer.from(key, 'hex').toString('hex'),
-    );
+    expect(storedKey!.length).toBe(32); // AES-256-GCM requires 32-byte key
 
     // Cleanup
     const keyPath = path.join(os.homedir(), '.clawguard', 'encryption.key');

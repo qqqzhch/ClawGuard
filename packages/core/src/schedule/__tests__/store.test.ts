@@ -27,7 +27,9 @@ describe('Schedule Store', () => {
     const schedule = {
       id: 'test-id',
       name: 'Daily Backup',
+      level: 'config',
       cron: '0 0 * * *',
+      retainDays: 7,
       lastRun: null,
       nextRun: Date.now() + 86400000,
       enabled: true,
@@ -44,7 +46,9 @@ describe('Schedule Store', () => {
     const schedule1 = {
       id: 'id-1',
       name: 'Daily Backup',
+      level: 'config',
       cron: '0 0 * * *',
+      retainDays: 7,
       lastRun: null,
       nextRun: Date.now() + 86400000,
       enabled: true,
@@ -52,7 +56,9 @@ describe('Schedule Store', () => {
     const schedule2 = {
       id: 'id-2',
       name: 'Hourly Backup',
+      level: 'system',
       cron: '0 * * * *',
+      retainDays: 3,
       lastRun: null,
       nextRun: Date.now() + 3600000,
       enabled: false,
@@ -72,7 +78,9 @@ describe('Schedule Store', () => {
     const schedule = {
       id: 'test-id',
       name: 'Daily Backup',
+      level: 'config',
       cron: '0 0 * * *',
+      retainDays: 7,
       lastRun: null,
       nextRun: Date.now() + 86400000,
       enabled: true,
@@ -91,7 +99,9 @@ describe('Schedule Store', () => {
     const schedule = {
       id: 'test-id',
       name: 'Daily Backup',
+      level: 'config',
       cron: '0 0 * * *',
+      retainDays: 7,
       lastRun: null,
       nextRun: Date.now() + 86400000,
       enabled: true,
@@ -109,7 +119,9 @@ describe('Schedule Store', () => {
     const schedule = {
       id: 'test-id',
       name: 'Daily Backup',
+      level: 'config',
       cron: '0 0 * * *',
+      retainDays: 7,
       lastRun: null,
       nextRun: Date.now() + 86400000,
       enabled: true,

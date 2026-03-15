@@ -1,4 +1,5 @@
-import { verify, verifyAll, type VerifyResult } from '../../core/src/verify/index.js';
+import { verify, verifyAll } from '@core/clawguard';
+import type { VerifyResult } from '@core/clawguard';
 
 export interface VerifyCommandOptions {
   backupDir?: string;
@@ -39,10 +40,8 @@ export async function handleVerifyCommand(
           console.log(`  - ${d.backupId}: ${d.message}`);
         });
     }
-  }
   } else {
     console.error('Please specify a backup ID or use --all flag');
     process.exit(1);
   }
-}
 }

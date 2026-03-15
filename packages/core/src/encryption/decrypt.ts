@@ -10,7 +10,6 @@ export async function decrypt(
 
   return Buffer.concat([
     decipher.update(result.data),
-),
     decipher.final(),
   ]);
 }

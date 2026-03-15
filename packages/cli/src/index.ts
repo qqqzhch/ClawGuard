@@ -9,6 +9,7 @@ import {
   setRetainDaysCommand
 } from './commands/schedule.js';
 import { listLogsCommand, logsStatsCommand, logsClearCommand } from './commands/logs.js';
+import { handleGatewayCommand } from './commands/gateway.js';
 
 const cli = cac('clawguard');
 
@@ -128,6 +129,20 @@ cli
   .command('logs clear', 'Clear all logs')
   .action(async () => {
     await logsClearCommand();
+  });
+
+// Gateway commands
+cli
+  .command('gateway start', 'Start Web Gateway service')
+  .option('--port <port>', 'Port to listen on', { default: '3000' })
+  .action(async (options) => {
+    await handleGatewayCommand('start', { port: parseInt(options.port) });
+  });
+
+cli
+  .command('gateway status', 'Check Gateway service status')
+  .action(async () => {
+    await handleGatewayCommand('status', {});
   });
 
 cli.parse();

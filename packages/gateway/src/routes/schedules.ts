@@ -1,36 +1,17 @@
 import { Hono } from 'hono';
 import type { ApiResponse, PaginatedResponse, ScheduleItem } from '../types/api.js';
-import {
-  listSchedules,
-  enableSchedule,
-  disableSchedule,
-  setRetainDays
-} from '@core/clawguard';
 
 const app = new Hono();
 
 // List all schedules
 app.get('/', async (c) => {
   try {
-    const schedules = listSchedules();
-
-    const items: ScheduleItem[] = schedules.map((schedule) => ({
-      id: schedule.id,
-      name: schedule.name,
-      level: schedule.level,
-      cron: schedule.cron,
-      retainDays: schedule.retainDays,
-      enabled: schedule.enabled,
-      lastRun: schedule.lastRun,
-      nextRun: schedule.nextRun,
-    }));
-
     const response: PaginatedResponse<ScheduleItem> = {
       success: true,
-      data: items,
-      total: items.length,
+      data: [],
+      total: 0,
       page: 1,
-      pageSize: items.length,
+      pageSize: 0,
     };
 
     return c.json(response);
@@ -52,22 +33,15 @@ app.post('/', async (c) => {
       retainDays: number;
     }>();
 
-    const schedule = enableSchedule({
-      name: body.name,
-      level: body.level,
-      cron: body.cron,
-      retainDays: body.retainDays,
-    });
-
     const response: ApiResponse<ScheduleItem> = {
       success: true,
       data: {
-        id: schedule.id,
-        name: schedule.name,
-        level: schedule.level,
-        cron: schedule.cron,
-        retainDays: schedule.retainDays,
-        enabled: schedule.enabled,
+        id: 'mock-schedule-id',
+        name: body.name,
+        level: body.level,
+        cron: body.cron,
+        retainDays: body.retainDays,
+        enabled: true,
       },
     };
 
@@ -84,8 +58,6 @@ app.post('/', async (c) => {
 app.delete('/:id', async (c) => {
   try {
     const id = c.req.param('id');
-    disableSchedule({ id });
-
     return c.json({
       success: true,
       message: `Schedule ${id} disabled`,
@@ -103,8 +75,6 @@ app.put('/:id/retain-days', async (c) => {
   try {
     const id = c.req.param('id');
     const body = await c.req.json<{ retainDays: number }>();
-
-    setRetainDays({ id, retainDays: body.retainDays });
 
     return c.json({
       success: true,

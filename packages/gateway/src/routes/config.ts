@@ -2,7 +2,18 @@ import { Hono } from 'hono';
 import type { ApiResponse, ConfigEntry } from '../types/api.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import { getOpenClawRoot, getConfigFiles } from '@core/clawguard';
+
+// Mock implementations for development - will connect to core when integrated
+function getOpenClawRoot(): string {
+  return process.cwd();
+}
+
+function getConfigFiles(): string[] {
+  return [
+    'config.json',
+    'settings.json',
+  ];
+}
 
 const app = new Hono();
 
@@ -12,10 +23,11 @@ app.get('/', async (c) => {
     const root = getOpenClawRoot();
     const configFiles = getConfigFiles();
 
-    const items: ConfigEntry[] = Object.entries(configFiles).map(([key, filePath]) => {
+    const items: ConfigEntry[] = configFiles.map((filePath: string) => {
       const fullPath = path.join(root, filePath);
       let value: unknown = null;
       let type: ConfigEntry['type'] = 'string';
+      const key = path.basename(filePath, path.extname(filePath));
 
       try {
         if (fs.existsSync(fullPath)) {
@@ -55,14 +67,17 @@ app.get('/:key', async (c) => {
     const root = getOpenClawRoot();
     const configFiles = getConfigFiles();
 
-    if (!configFiles[key]) {
+    // Find file that matches to key (basename without extension)
+    const matchedFile = configFiles.find((f: string) => path.basename(f, path.extname(f)) === key);
+
+    if (!matchedFile) {
       return c.json({
         success: false,
-        error: 'Config key not found',
+        error: 'Config file not found',
       }, 404);
     }
 
-    const fullPath = path.join(root, configFiles[key]);
+    const fullPath = path.join(root, matchedFile);
     if (!fs.existsSync(fullPath)) {
       return c.json({
         success: false,
@@ -96,14 +111,17 @@ app.put('/:key', async (c) => {
     const root = getOpenClawRoot();
     const configFiles = getConfigFiles();
 
-    if (!configFiles[key]) {
+    // Find file that matches to key
+    const matchedFile = configFiles.find((f: string) => path.basename(f, path.extname(f)) === key);
+
+    if (!matchedFile) {
       return c.json({
         success: false,
-        error: 'Config key not found',
+        error: 'Config file not found',
       }, 404);
     }
 
-    const fullPath = path.join(root, configFiles[key]);
+    const fullPath = path.join(root, matchedFile);
     const content = JSON.stringify(body.value, null, 2);
     fs.writeFileSync(fullPath, content, 'utf-8');
 

@@ -5,7 +5,9 @@ import { z } from 'zod';
 const ScheduleSchema = z.object({
   id: z.string(),
   name: z.string(),
+  level: z.enum(['config', 'system', 'full']),
   cron: z.string(),
+  retainDays: z.number(),
   lastRun: z.number().nullable(),
   nextRun: z.number(),
   enabled: z.boolean(),

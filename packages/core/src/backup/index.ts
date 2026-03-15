@@ -2,7 +2,9 @@ import { backupLevel1 } from './level-1.js';
 import { backupLevel2 } from './level-2.js';
 import { backupLevel3 } from './level-3.js';
 import { createMetadataStore, getDefaultMetadataIndexPath } from '../metadata-store/index.js';
-import type { BackupOptions, BackupInfo } from '../types/backup.js';
+import type { BackupOptions, BackupInfo, BackupMetadata } from '../types/backup.js';
+import fs from 'fs/promises';
+import path from 'path';
 
 export async function backup(
   options: BackupOptions,
@@ -32,8 +34,14 @@ export async function backup(
 }
 
 export async function listBackups(): Promise<BackupInfo[]> {
-  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath('.clawguard/backups'));
-  return await metadataStore.list();
+  const backupDir = '.clawguard/backups';
+  const metadataStore = createMetadataStore(getDefaultMetadataIndexPath(backupDir));
+  const metadatas = await metadataStore.list();
+
+  return metadatas.map(metadata => ({
+    metadata,
+    filePath: path.join(backupDir, `${metadata.id}.tar.gz`),
+  }));
 }
 
 export async function getBackupMetadata(
@@ -42,7 +50,16 @@ export async function getBackupMetadata(
 ): Promise<BackupInfo | null> {
   const dir = backupDir || '.clawguard/backups';
   const metadataStore = createMetadataStore(getDefaultMetadataIndexPath(dir));
-  return await metadataStore.get(id);
+  const metadata = await metadataStore.get(id);
+
+  if (!metadata) {
+    return null;
+  }
+
+  return {
+    metadata,
+    filePath: path.join(dir, `${metadata.id}.tar.gz`),
+  };
 }
 
 export async function createBackup(
@@ -72,6 +89,6 @@ export async function deleteBackup(id: string): Promise<void> {
 }
 
 export * from './metadata.js';
-export * from './level-1.';
-export * from './level-2.';
-export * from './level-3.';
+export * from './level-1.js';
+export * from './level-2.js';
+export * from './level-3.js';

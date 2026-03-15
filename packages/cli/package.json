@@ -10,14 +10,14 @@
     "public"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --experimentalStripTypes",
-    "dev": "tsup src/index.ts --format esm --dts --watch --experimentalStripTypes",
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
     "start": "node dist/index.js"
   },
   "dependencies": {
     "@core/clawguard": "workspace:*",
     "cac": "^6.7.0",
-    "ora": "^6.4.0",
+    "ora": "^6.3.0",
     "chalk": "^4.1.2",
     "cli-table3": "^0.6.3"
   },

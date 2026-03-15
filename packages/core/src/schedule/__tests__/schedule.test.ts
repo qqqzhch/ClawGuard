@@ -6,7 +6,7 @@ import {
   setRetainDays,
   deleteOldBackups
 } from '../schedule.js';
-import { createScheduleStore, getDefaultScheduleIndexPath } from './store.js';
+import { createScheduleStore, getDefaultScheduleIndexPath } from '../store.js';
 import { backup } from '../../backup/index.js';
 import { createMetadataStore, getDefaultMetadataIndexPath as getMetadataIndexPath } from '../../metadata-store/index.js';
 import fsExtra from 'fs-extra';
@@ -104,7 +104,11 @@ describe('Schedule Module', () => {
 
     // Mock old backup timestamp
     if (backups.length > 0) {
-      await metadataStore.update(backups[0].id, { timestamp: oldDate });
+      const updatedBackup = {
+        ...backups[0],
+        timestamp: oldDate
+      };
+      await metadataStore.add(updatedBackup);
     }
 
     // Delete backups older than 7 days

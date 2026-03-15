@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import fsExtra from 'fs-extra';
 import path from 'path';
 import { getWorkspacePath } from '../paths/index.js';
 import {
@@ -6,10 +7,10 @@ import {
   generateBackupId,
   calculateChecksum,
 } from './metadata.js';
-import type { BackupInfo } from '../../types/backup.js';
+import type { BackupInfo, BackupOptions } from '../types/backup.js';
 
 export async function backupLevel3(
-  options: any,
+  options: Partial<BackupOptions>,
 ): Promise<BackupInfo> {
   const id = generateBackupId();
   const name = options.name || `Full Backup ${new Date().toLocaleString()}`;
@@ -37,10 +38,7 @@ export async function backupLevel3(
 
   // Determine output path
   const output = options.output || path.join(process.cwd(), '.clawguard', 'backups');
-  await {
-    const fsExtra = await import('fs-extra');
-    await fsExtra.mkdir(output, { recursive: true });
-  }
+  await fsExtra.mkdir(output, { recursive: true });
 
   const filePath = path.join(output, `${id}.tar.gz`);
   await fs.writeFile(filePath, data);
