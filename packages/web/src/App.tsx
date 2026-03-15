@@ -3,6 +3,7 @@ import { LayoutDashboard, Database, Clock, FileText, Settings, Shield } from 'lu
 import BackupManagement from '@/components/BackupManagement';
 import ConfigManagement from '@/components/ConfigManagement';
 import ScheduleManagement from '@/components/ScheduleManagement';
+import LogViewer from '@/components/LogViewer';
 
 export default function App() {
   return (
@@ -54,9 +55,7 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="logs" className="mt-6">
-            <div className="text-center py-8 text-muted-foreground">
-              加载中...
-            </div>
+            <LogViewer />
           </TabsContent>
 
           <TabsContent value="settings" className="mt-6">
