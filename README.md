@@ -1,92 +1,94 @@
 # ClawGuard
 
-OpenClaw 配置管理工具，提供配置文件备份、恢复、迁移和工作区管理功能。
+English | [中文](README.md)
 
-## 功能特性
+Configuration management tool for OpenClaw, providing backup, restore, migration, and workspace management capabilities.
 
-- **三级备份策略**：配置文件 / 系统文件 / 完整工作区
-- **加密支持**：AES-256-GCM 加密保护敏感数据
-- **定时任务**：自动备份与保留策略
-- **差异对比**：备份文件版本对比
-- **Web 界面**：可视化配置管理
-- **操作日志**：完整的操作审计追踪
+## Features
 
-## 快速开始
+- **Three-Level Backup Strategy**: Config files / System files / Full workspace
+- **Encryption Support**: AES-256-GCM encryption for sensitive data protection
+- **Scheduled Tasks**: Automated backups with retention policies
+- **Diff Comparison**: Compare backup versions
+- **Web Interface**: Visual configuration management
+- **Operation Logs**: Complete operation audit trail
 
-### 安装
+## Quick Start
+
+### Installation
 
 ```bash
-# 使用 pnpm
+# Using pnpm
 pnpm install
 
-# 构建所有包
+# Build all packages
 pnpm build
 ```
 
-### CLI 使用
+### CLI Usage
 
 ```bash
-# 创建备份
+# Create a backup
 clawguard backup --level config --name my-backup
 
-# 查看备份列表
+# List backups
 clawguard backup list
 
-# 对比两个备份
+# Compare two backups
 clawguard diff <backup-id-1> <backup-id-2>
 
-# 验证备份完整性
+# Verify backup integrity
 clawguard verify <backup-id>
 
-# 设置定时备份
+# Set up scheduled backup
 clawguard schedule enable "daily-backup" "config" "0 2 * * *" 30
 
-# 查看操作日志
+# View operation logs
 clawguard logs --limit 50
 
-# 启动 Web Gateway
+# Start Web Gateway
 clawguard gateway start --port 3000
 ```
 
-### Web 界面
+### Web Interface
 
 ```bash
-# 启动开发服务器
+# Start development server
 pnpm web
 
-# 或构建后通过 Gateway 访问
+# Or access via Gateway after build
 pnpm gateway
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 packages/
-├── core/          # 核心库（备份、加密、日志等）
-├── cli/           # 命令行工具
-├── gateway/       # Web API 网关
-└── web/           # React 前端界面
+├── core/          # Core library (backup, encryption, logs, etc.)
+├── cli/           # Command line tool
+├── gateway/       # Web API gateway
+└── web/           # React frontend
 ```
 
-## 技术栈
+## Tech Stack
 
-- **语言**: TypeScript
-- **构建**: tsup / Vite
-- **测试**: Vitest / Playwright
+- **Language**: TypeScript
+- **Build**: tsup / Vite
+- **Testing**: Vitest / Playwright
 - **CLI**: cac
 - **Web**: React + Tailwind CSS + Radix UI
 - **API**: Hono
 
-## 开发命令
+## Development Commands
 
 ```bash
-pnpm dev          # 开发模式
-pnpm build        # 构建所有包
-pnpm test         # 运行测试
-pnpm lint         # 代码检查
-pnpm typecheck    # 类型检查
+pnpm dev          # Development mode
+pnpm build        # Build all packages
+pnpm test         # Run tests
+pnpm lint         # Lint code
+pnpm typecheck    # Type checking
 ```
 
-## 许可证
+## License
 
 MIT
