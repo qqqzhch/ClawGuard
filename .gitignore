@@ -42,3 +42,6 @@ coverage/
 
 # Claude specific
 .claude/worktrees/
+
+packages/gateway/public/*
+*.tgz

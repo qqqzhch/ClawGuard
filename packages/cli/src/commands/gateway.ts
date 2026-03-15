@@ -23,9 +23,10 @@ async function startGateway(options: GatewayCommandOptions): Promise<void> {
     const port = options.port || 3000;
     logger.info(`Starting Gateway on port ${port}...`);
 
-    // Import and start gateway directly for development
+    // Import and start gateway directly
     const { startServer } = await import('@gateway/clawguard');
     startServer(port);
+    logger.info(`✅ Gateway running at http://localhost:${port}`);
   } catch (error) {
     logger.error('Failed to start Gateway', error as Error);
     throw error;

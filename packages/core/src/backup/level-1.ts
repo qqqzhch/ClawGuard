@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import fsExtra from 'fs-extra';
 import path from 'path';
-import { getConfigFiles } from '../paths/index.js';
+import { getConfigFiles, getOpenClawRoot } from '../paths/index.js';
 import {
   createBackupMetadata,
   generateBackupId,
@@ -27,7 +27,8 @@ export async function backupLevel1(
       const content = await fs.readFile(filePath, 'utf-8');
       backupData[filePath] = content;
       fileCount++;
-    } catch {
+    } catch (error) {
+      console.error(`Failed to read ${filePath}:`, error);
       // File doesn't exist, skip
     }
   }
@@ -36,7 +37,7 @@ export async function backupLevel1(
   const checksum = calculateChecksum(data);
 
   // Determine output path
-  const output = options.output || path.join(process.cwd(), '.clawguard', 'backups');
+  const output = options.output || path.join(getOpenClawRoot(), 'backups');
   await fsExtra.mkdir(output, { recursive: true });
 
   const filePath = path.join(output, `${id}.json`);

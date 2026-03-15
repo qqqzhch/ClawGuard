@@ -27,4 +27,14 @@ const cliPublic = path.join('packages', 'cli', 'public');
 fs.removeSync(cliPublic);
 fs.copySync(webDist, cliPublic);
 
+// 6. Copy web build to Gateway public directory
+console.log('Copying web build to Gateway...');
+const gatewayPublic = path.join('packages', 'gateway', 'public');
+fs.removeSync(gatewayPublic);
+fs.copySync(webDist, gatewayPublic);
+
 console.log('Build complete!');
+console.log('\nTo start the gateway:');
+console.log('  clawguard gateway start');
+console.log('\nThen visit:');
+console.log('  http://localhost:3000');
